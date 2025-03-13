@@ -1,6 +1,3 @@
-library(tidyverse)
-library(truncnorm)
-messagef <- function(...) message(sprintf(...))
 
 no_ranef <- list(
   intercept = list(raters = .0, items = .0),
@@ -24,9 +21,7 @@ strong_ranef_with_slope <- list(intercept = list(raters = .5, items = .5),
                                 beta = list(raters = .5, items = .5),
                                 corr = list(raters = .5, items = .5))
 
-cor2cov <- function(V, sd) {
-  V * tcrossprod(sd)
-}
+
 simulate_lmm <- function(n_raters = 10, 
                          n_items = 10, 
                          n_conditions = 2,
@@ -34,7 +29,8 @@ simulate_lmm <- function(n_raters = 10,
                          fixef_beta = c(1),
                          ranef = strong_ranef,
                          y0 = 3,
-                         error = .5){
+                         error = .5, 
+                         contrasts = contr.treatment){
   n_total <- n_raters * n_items
   if(n_conditions != 2){
     stop("More than 2 conditions not implemented yet")
@@ -45,7 +41,7 @@ simulate_lmm <- function(n_raters = 10,
   
   fixef_beta <- fixef_beta[1:(n_conditions - 1)]
   
-  browser()
+
   cor_raters <- matrix(c(1, ranef$corr$raters, ranef$corr$raters, 1), nrow = 2, ncol = 2) 
   cor_items <- matrix(c(1, ranef$corr$items, ranef$corr$items, 1), nrow = 2, ncol = 2) 
   sigma_raters <- cor2cov(cor_raters, c(ranef$intercept$raters, ranef$beta$raters))
@@ -63,8 +59,9 @@ simulate_lmm <- function(n_raters = 10,
     mutate(liking = y1 + betas * condition + err) %>% 
     mutate(rater = sprintf("r%02d", rater), 
            item =  sprintf("i%02d", item),
-           condition = condition_labels[condition + 1]
+           condition = factor(condition_labels[condition + 1])
     )
+  contrasts(model_matrix$condition) <- contrasts(n_conditions)
   messagef("True SD raters: (%.2f, %.2f), True SD items (%.2f, %.2f), True err = %.2f, mean(betas) = %.2f", 
            sd(ranef_raters$y0), sd(ranef_raters$beta), sd(ranef_items$y0), sd(ranef_items$beta), 
            sd(err), mean(model_matrix$betas))
