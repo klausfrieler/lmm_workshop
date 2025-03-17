@@ -1,6 +1,20 @@
 source("simulate_lmm.R")
 library(sjPlot)
 
+three_methods <- function(data){
+  m_full <- data %>% 
+    lmerTest::lmer(liking ~ condition + (1 + condition|rater) + (1+ condition|item), data = .)
+  
+  m_partial <- data %>% 
+    lmerTest::lmer(liking ~ condition + (1 |rater) + (1|item), data = .)
+  
+  m_simple <- data %>% 
+    lm(liking ~ condition, data = .)
+  #m_re_by_rater <- data %>% re_wise_lms()
+  
+  list(full = m_full, partial = m_partial, simple = m_simple)
+}
+
 method_cmp <- function(data){
   m_full <- data %>% 
     lmerTest::lmer(liking ~ condition + (1 + condition|rater) + (1+ condition|item), data = .)
@@ -12,13 +26,11 @@ method_cmp <- function(data){
     lm(liking ~ condition, data = .)
   
   results <- bind_rows(
-    broom.mixed::tidy(m_full) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "full"), 
-    broom.mixed::tidy(m_partial) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "partial"),
-    broom::tidy(m_simple) %>% filter(term != "(Intercept)")  %>% mutate(type = "simple"),
-    re_wise_lms(data, "rater"), 
-    re_wise_lms(data, "item"),
-    center_then_average_lm(data, "rater"),
-    center_then_average_lm(data, "item")
+    broom.mixed::tidy(m_full) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "Full LMM"), 
+    broom.mixed::tidy(m_partial) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "Partial LMM"),
+    broom::tidy(m_simple) %>% filter(term != "(Intercept)")  %>% mutate(type = "Simple LM"),
+    re_wise_lms(data, "rater") %>% mutate(type = "Single LM (rater)"), 
+    re_wise_lms(data, "item") %>% mutate(type = "Single LM (items)")
   ) 
   results %>% mutate(ci95_low = estimate  - 1.96 * std.error, ci95_hi = estimate  + 1.96 * std.error)
 }

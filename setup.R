@@ -1,5 +1,6 @@
 library(tidyverse)
 library(sjPlot)
+library(lme4)
 library(lmerTest)
 library(performance)
 library(effectsize)

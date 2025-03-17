@@ -27,7 +27,7 @@ simulate_lmm <- function(n_raters = 10,
                          n_conditions = 2,
                          condition_labels = c("AO", "AV"),
                          fixef_beta = c(1),
-                         ranef = strong_ranef,
+                         ranef = strong_ranef_with_slope,
                          y0 = 3,
                          error = .5, 
                          contrasts = contr.treatment){
@@ -62,6 +62,8 @@ simulate_lmm <- function(n_raters = 10,
            condition = factor(condition_labels[condition + 1])
     )
   contrasts(model_matrix$condition) <- contrasts(n_conditions)
+  model_matrix <- model_matrix %>% mutate(condition = as.character(condition))
+  
   messagef("True SD raters: (%.2f, %.2f), True SD items (%.2f, %.2f), True err = %.2f, mean(betas) = %.2f", 
            sd(ranef_raters$y0), sd(ranef_raters$beta), sd(ranef_items$y0), sd(ranef_items$beta), 
            sd(err), mean(model_matrix$betas))
