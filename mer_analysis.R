@@ -9,6 +9,7 @@ get_top_cors <- function(data = mer, target_var = "AROUSAL", predictors = mer_mi
     pull(term)
   cor_list
 }
+
 mer_model_selection <- function(){
   mir_mod_0 <- lmer(AROUSAL ~ (1 | p_id) + (1  | s_id), data = mer, control = lmerControl(optimizer = "bobyqa"))
   mir_mod_1 <- lmer(AROUSAL ~ MIR.tempo + (1 + MIR.tempo| p_id) + (1  | s_id), data = mer, , control = lmerControl(optimizer = "bobyqa"))

@@ -29,6 +29,7 @@ setup_workspace <- function(){
            beat_ability = .5*(beat_prod + beat_perc), 
            precision = -log_sd_ioi) 
   scenario2 <- readRDS("data/scenario2.rds")
+  load("data/power_demo.rda", envir = globalenv())
   assign("covox", covox, globalenv())
   assign("mer", mer, globalenv())
   assign("mer_mir_features", mer_mir_features, globalenv())
