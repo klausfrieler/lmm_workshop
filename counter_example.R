@@ -15,7 +15,8 @@ simulate_counter_example <- function(n_rater = 100, n_samples = 10, sigma_beta =
 
 counter_example_demo <- function(sigma_beta = 5, rater_eps = 5){
   test_data <- simulate_counter_example(sigma_beta = sigma_beta, rater_eps = rater_eps) 
-  lmm <- lmer( y ~ x + (1|p_id), data =  test_data) %>% broom::tidy() %>% mutate(type = "lmm")
+  lmm <- lmer( y ~ x + (1|p_id), data =  test_data) %>% broom::tidy() %>% mutate(type = "lmm") %>% 
+    filter(effect == "fixed") %>% select(-c(group, effect))
   lm <- lm( y ~ x , data =  test_data) %>% broom::tidy() %>% mutate(type = "lm")
   q <- test_data %>% ggplot(aes(x = x, y = y))
   q <- q + geom_point() 
