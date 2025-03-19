@@ -11,7 +11,6 @@ three_methods <- function(data){
   m_simple <- data %>% 
     lm(liking ~ condition, data = .)
   #m_re_by_rater <- data %>% re_wise_lms()
-  
   list(full = m_full, partial = m_partial, simple = m_simple)
 }
 
@@ -25,10 +24,14 @@ method_cmp <- function(data){
   m_simple <- data %>% 
     lm(liking ~ condition, data = .)
   
+  m_sandwich <- m_simple %>% lmtest::coeftest(vcov = sandwich::vcovCL, cluster = ~rater + item, df = Inf)
+
+  
   results <- bind_rows(
     broom.mixed::tidy(m_full) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "Full LMM"), 
     broom.mixed::tidy(m_partial) %>% filter(effect == "fixed", term != "(Intercept)") %>% select(-c(effect, group)) %>% mutate(type = "Partial LMM"),
     broom::tidy(m_simple) %>% filter(term != "(Intercept)")  %>% mutate(type = "Simple LM"),
+    broom.mixed::tidy(m_sandwich) %>% filter(term != "(Intercept)")  %>% mutate(type = "Sandwich vcovCL"),
     re_wise_lms(data, "rater") %>% mutate(type = "Single LM (rater)"), 
     re_wise_lms(data, "item") %>% mutate(type = "Single LM (items)")
   ) 
@@ -47,7 +50,7 @@ model_cmp <- function(n_raters = 10, n_items = 10, fixef = 1, with_slope = T, n_
 
 }
 
-re_wise_lms <-  function(data, axis = "rater"){
+re_wise_lms <-  function(data, axis = "rater", only_models = F){
   elts <- unique(data[[axis]])
   ret <- map_dfr(elts, function(r){
     tmp <- data %>% filter(!!sym(axis) == r)
@@ -58,6 +61,9 @@ re_wise_lms <-  function(data, axis = "rater"){
   }) 
   if(nrow(ret) == 0){
     return(NULL)
+  }
+  if(only_models){
+    return(ret)
   }
   base <- ret %>% filter(term != "(Intercept)") %>% summarise(term = term[1], m = mean(estimate), std.error = sd(estimate)/sqrt(nrow(.)))
   #browser()

@@ -41,7 +41,7 @@ simulate_lmm <- function(n_raters = 10,
   
   fixef_beta <- fixef_beta[1:(n_conditions - 1)]
   
-
+  
   cor_raters <- matrix(c(1, ranef$corr$raters, ranef$corr$raters, 1), nrow = 2, ncol = 2) 
   cor_items <- matrix(c(1, ranef$corr$items, ranef$corr$items, 1), nrow = 2, ncol = 2) 
   sigma_raters <- cor2cov(cor_raters, c(ranef$intercept$raters, ranef$beta$raters))
