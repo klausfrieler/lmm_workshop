@@ -70,7 +70,7 @@ with the highest mean across participant for this item.
 | **MIR.mode_std**              | numeric |                                                              |
 | **MIR.attacktime_std**        | numeric |                                                              |
 | **MIR.tempo**                 | numeric |                                                              |
-| **emo**                       | factor  | [ angry &vert; fearf &vert; happy &vert; peacef &vert; tender &vart; sad ] |
+| **emo**                       | factor  | [ angry &vert; fearf &vert; happy &vert; peacef &vert; tender &vert; sad ] |
 
 ### `covox` (Voice Preferences)
 
@@ -95,7 +95,7 @@ Further, all  participants rated all items on two different occasions (column `t
 | **speech** | logical   | [TRUE &vert; FALSE] 
 
 
-### `kids_beat` (Development of  Synchronisation abilities)
+### `kids_beat` (Development of  Synchronisation Abilities in Children)
 This is a subset of the raw data from Will et al. 2024. In this experiment, 188 participants from five different age groups  (column `age_group`), 
 had to tap to  a beat in two different settings and for two different tempos. Precision (`precision`) was measured as the negative 
 logarithm of the standard deviation (column `log_sd_ioi`) of the produced inter-beat intervals (the higher, the better). 
