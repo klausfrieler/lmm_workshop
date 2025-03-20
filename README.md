@@ -13,10 +13,20 @@ The project includes several data sets that are used during the workshop.
 
 Central are simulated data, though, which can be generated using ``simulate_lmm()``. The generated data are coming from a 
 fully crossed desihn of `n_rater` rating `n_item` with respect to `liking`. The items are presented in two `condition`s, audio-only 
-(`AO`) and audio-visual `AV`. The effect of condition on liking can be set be with the parameter `fixef_beta', the resiudal erro with 
+(`AO`) and audio-visual `AV`. The effect of condition on liking can be set be with the parameter `fixef_beta', the resisual error with 
 the parameter `eps`, the global intercept with `y0`. The random effects are set with the parameter `ranef` which needs to be a nested list.
-On the top level, the need to be three lists with names `intcept`, `beta`,  and `cor`, which  themselves need to be lists with entries `raters`and 
-`ìtems`, containg the corresponding random effects parameters.
+On the top level, the need to be three lists with names `intercept`, `beta`,  and `cor`, which  themselves need to be lists with entries `raters`and 
+`ìtems`, containing the corresponding random effects parameters.
+
+
+| Variable      | Type    | Values                                              |
+|:--------------|:--------|:----------------------------------------------------|
+| **rater**     | factor  | [ r01 &vert; r02 &vert; r03 &vert; r04 &vert; ... ] |
+| **item**      | factor  | [ i01 &vert; i02 &vert; i03 &vert; i04 &vert; ... ] |
+| **condition** | factor  | [ AO &vert; AV ]                                    |
+| **betas**     | numeric |                                                     |
+| **y1**        | numeric |                                                     |
+| **liking**    | numeric |                                                     |
 
 There are four other data sets, three real and one simulated, included with the project, which will be described shortly in the following.
 
@@ -35,14 +45,30 @@ Besides that, for each item there are 11 audio features extracted, where MIR.tem
 Finally, there is a categorial variables (column `emo`), which contains the emotional label, derived as the emotion variable 
 with the highest mean across participants. 
 
-| Variable      | Type    | Values                                              |
-|:--------------|:--------|:----------------------------------------------------|
-| **rater**     | factor  | [ r01 &vert; r02 &vert; r03 &vert; r04 &vert; ... ] |
-| **item**      | factor  | [ i01 &vert; i02 &vert; i03 &vert; i04 &vert; ... ] |
-| **condition** | factor  | [ AO &vert; AV ]                                    |
-| **betas**     | numeric |                                                     |
-| **y1**        | numeric |                                                     |
-| **liking**    | numeric |                                                     |
+| Variable                      | Type    | Values                                                       |
+|:------------------------------|:--------|:-------------------------------------------------------------|
+| **p_id**                      | integer | 1&ndash;20                                                   |
+| **s_id**                      | integer | 1&ndash;60                                                   |
+| **AROUSAL**                   | numeric |                                                              |
+| **VALENCE**                   | numeric |                                                              |
+| **angry**                     | integer | 1&ndash;7                                                    |
+| **sad**                       | integer | 1&ndash;7                                                    |
+| **happy**                     | integer | 1&ndash;7                                                    |
+| **peacef**                    | integer | 1&ndash;7                                                    |
+| **tender**                    | integer | 1&ndash;7                                                    |
+| **fearf**                     | integer | 1&ndash;7                                                    |
+| **MIR.low_energy_mean**       | numeric |                                                              |
+| **MIR.pitch_mean**            | numeric |                                                              |
+| **MIR.rms_mean**              | numeric |                                                              |
+| **MIR.regularity_mean**       | numeric |                                                              |
+| **MIR.keyclarity_mean**       | numeric |                                                              |
+| **MIR.mode_mean**             | numeric |                                                              |
+| **MIR.pulse_clarity_mean**    | numeric |                                                              |
+| **MIR.spectral_novelty_mean** | numeric |                                                              |
+| **MIR.mode_std**              | numeric |                                                              |
+| **MIR.attacktime_std**        | numeric |                                                              |
+| **MIR.tempo**                 | numeric |                                                              |
+| **emo**                       | factor  | [ angry &vert; fearf &vert; happy &vert; peacef &vert; ... ] |
 
 ### `covox`
 
