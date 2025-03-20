@@ -86,7 +86,7 @@ Further, all  participants rated all items on two different occasions (column `t
 | Variable   | Type      | Values                                                                                                  |
 |:-----------|:----------|:--------------------------------------------------------------------------------------------------------|
 | **singer** | factor    | [ singer01 &vert; singer02 &vert; singer03 &vert; singer04 &vert; ... ]                                 |
-| **rater**  | character | [ r01 &vert; r02 &vert; r03 &vert; r04& ... ]                                                                                                         |
+| **rater**  | character | [ r01 &vert; r02 &vert; r03 &vert; r04 &vert& ... ]                                                                                                         |
 | **style**  | factor    | [ AD &vert; ID &vert; lullaby &vert; opera &vert; pop ]                                                 |
 | **melody** | factor    | [ CH &vert; MS &vert; NN ]                                                                              |
 | **time**   | factor    | [ T1 &vert; T2 ]                                                                                        |
