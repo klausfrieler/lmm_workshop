@@ -95,7 +95,7 @@ Further, all  participants rated all items on two different occasions (column `t
 | **speech** | logical   | [TRUE &vert; FALSE] 
 
 
-### `kids_beat` (Development of  Synchronisation Abilities in Children)
+### `kid_beats` (Development of  Synchronisation Abilities in Children)
 This is a subset of the raw data from Will et al. 2024. In this experiment, 188 participants from five different age groups  (column `age_group`), 
 had to tap to  a beat in two different settings and for two different tempos. Precision (`precision`) was measured as the negative 
 logarithm of the standard deviation (column `log_sd_ioi`) of the produced inter-beat intervals (the higher, the better). 
@@ -119,7 +119,7 @@ Furthermore, beat perception (`beat_perc`) and production (`beat_prod`) skills w
 
 This is simulated data with heteroscedastic and measurement error from a study by Müllensiefen & Frieler (in preparation).
 Outcome is `y`, with two predictors `x` and `z`. True coefficients
-are intercept = 1, beta_x = .4, and beta_z = .5. The original values, before applying measurement errors `xe`, `ye`, and `ze', 
+are intercept = 1, beta_x = .4, and beta_z = .2. The original values, before applying measurement errors `xe`, `ye`, and `ze', 
 are in columns `xt`, `yt` and `zt'.  The level of measurement error can be `high` or `low`.
 
 
