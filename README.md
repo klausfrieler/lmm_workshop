@@ -11,10 +11,10 @@ The project includes several data sets that are used during the workshop.
 
 ### Simulating random effects data
 
-Central are simulated data, though, which can be generated using ``simulate_lmm()``. The generated data are coming from a 
+Central are simulated data, though, which can be generated using `simulate_lmm()`. The generated data are coming from a 
 fully crossed desihn of `n_rater` rating `n_item` with respect to `liking`. The items are presented in two `condition`s, audio-only 
-(`AO`) and audio-visual `AV`. The effect of condition on liking can be set be with the parameter `fixef_beta', the resisual error with 
-the parameter `eps`, the global intercept with `y0`. The random effects are set with the parameter `ranef` which needs to be a nested list.
+(`AO`) and audio-visual `AV`. The effect of condition on liking can be set be with the parameter `fixef_beta`, 
+the residual error with the parameter `eps`, the global intercept with `y0`. The random effects are set with the parameter `ranef` which needs to be a nested list.
 On the top level, the need to be three lists with names `intercept`, `beta`,  and `cor`, which  themselves need to be lists with entries `raters`and 
 `ìtems`, containing the corresponding random effects parameters.
 
@@ -36,7 +36,7 @@ This is a abridged version of the original data from Lange & Frieler, 2016. The 
 definite tempo (column `MIR.tempo`), which are 53 in total.
 
 The main ratings were perceived emotional expressions (columns `angry`, `sad`, `happy`, `peacef`, `tender`, `fearf`), These were 
-transformed with a factor analysis to two variables for valence and arousal (columns ``AROUSAL` and `VALENCE`.)
+transformed with a factor analysis to two variables for valence and arousal (columns `AROUSAL` and `VALENCE`.)
 
 Besides that, for each item there are 11 audio features extracted, where MIR.tempo was manually annotated (columns 
 `MIR.low_energy_mean`, `MIR.pitch_mean`, `MIR.rms_mean`, `MIR.regularity_mean`, `MIR.keyclarity_mean`, `MIR.mode_mean`, 
