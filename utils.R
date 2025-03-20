@@ -73,6 +73,33 @@ sd_by_hand <- function(x){
   norm_vec(center(x))/sqrt(n-1)
 }
 
+
+describe_data_md <- function(data_set){
+  names <- names(data_set)
+  types <- sapply(data_set, class)
+  
+  values <- sapply(data_set, function(x){
+    if(class(x) == "factor"){
+      if(length(levels(x)) <= 5){
+        sprintf("[ %s ]", paste(levels(x), collapse = " &vert; "))
+      }
+      else{
+        sprintf("[ %s ]", paste(c(levels(x)[1:4], "..."), collapse = " &vert; "))
+      }
+    }    
+    else if(class(x) == "integer"){
+      sprintf("%d&ndash;%d", min(x), max(x))
+    } 
+    else if(class(x) == "logical"){
+      "[TRUE &vert; FALSE]"
+    } 
+    else{ "" 
+      }
+  })
+  meta <- tibble(Variable = sprintf("**%s**", names), Type = types, Values = values)
+  meta
+}
+
 scale_by_hand <- function(x){
   n <- length(x)
   sqrt(n-1) * unit_vec(center(x))

@@ -62,7 +62,7 @@ simulate_lmm <- function(n_raters = 10,
            condition = factor(condition_labels[condition + 1])
     )
   contrasts(model_matrix$condition) <- contrasts(n_conditions)
-  model_matrix <- model_matrix %>% mutate(condition = as.character(condition))
+  model_matrix <- model_matrix %>% mutate(condition = as.character(condition)) 
   
   messagef("True SD raters: (%.2f, %.2f), True SD items (%.2f, %.2f), True err = %.2f, mean(betas) = %.2f", 
            sd(ranef_raters$y0), sd(ranef_raters$beta), sd(ranef_items$y0), sd(ranef_items$beta), 
