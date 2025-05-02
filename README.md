@@ -1,7 +1,7 @@
 ---
-title: LMM Worksop
-author: Klaus Frieler, Max Planck Institute for Empirical Aesthetics, Frankfrut/Main
-date: 20.03.2025
+title: The Art of Modeling. An Introduction to Linear Mixed Effects Models with R.
+author: Klaus Frieler, Max Planck Institute for Empirical Aesthetics, Frankfurt/Main
+date: 02.05.2025
 ---
 
 Materials for a Linear Mixed Effects Models Workshop

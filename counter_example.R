@@ -1,6 +1,6 @@
 simulate_counter_example <- function(n_rater = 100, n_samples = 10, sigma_beta = 2, rater_eps = 2){
   #x <- seq(0, 1, .01)
-  n_samples <- min(max(n_samples, 10), length(x))
+  #n_samples <- min(max(n_samples, 10), length(x))
   ret <-
     map_dfr(1:n_rater, function(p_id) {
       offset <- (p_id %% 10) - 5
@@ -18,10 +18,17 @@ simulate_counter_example <- function(n_rater = 100, n_samples = 10, sigma_beta =
 
 counter_example_demo <- function(sigma_beta = 2, rater_eps = 1){
   test_data <- simulate_counter_example(sigma_beta = sigma_beta, rater_eps = rater_eps) 
-  #browser()
-  lmm <- lmer( y ~ x + (1|p_id), data =  test_data) %>% broom::tidy() %>% mutate(type = "lmm") %>% 
-    filter(effect == "fixed") %>% select(-c(group, effect))
-  lm <- lm( y ~ x , data =  test_data) %>% broom::tidy() %>% mutate(type = "lm")
+
+  lmm <- lmer( y ~ x + (1|p_id), data =  test_data) %>% 
+    broom.mixed::tidy() %>% 
+    mutate(type = "lmm") %>% 
+    filter(effect == "fixed") %>% 
+    select(-c(group, effect))
+  
+  lm <- lm( y ~ x , data =  test_data) %>% 
+    broom::tidy() %>% 
+    mutate(type = "lm")
+  
   q <- test_data %>% ggplot(aes(x = x, y = y))
   q <- q + geom_point() 
   q <- q + geom_smooth(aes(group = factor(p_id)), method = "lm", color = "indianred4",alpha = .02) 
