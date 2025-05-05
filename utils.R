@@ -109,3 +109,52 @@ scale_by_hand <- function(x){
 cor_by_hand <- function(x, y){
   scalar_prod(unit_vec(center(x)), unit_vec(center(y)))
 }
+
+multi_col_demo <- function(N = 100, seed = NULL, error = 2, r_xy = .5){
+  set.seed(seed)
+  if(r_xy == 0){
+    sigma_y <- 1
+  }
+  else{
+    sigma_y <- sqrt((1 - r_xy^2)/r_xy^2)
+  }
+  x <- rnorm(N, 0, 1)
+  y <- x + rnorm(N, 0, sigma_y)
+  u <- rnorm(N, 0, 1)
+  z <- 1  + x + y + u + rnorm(N, 0, error)
+  data <- tibble(z = z, x = x, y = y) 
+  mod <- data %>% lm(z ~ x + y + u, data = .)
+  #summary(mod)
+  #mod %>% car::vif()
+  #cor(x, y)
+  broom::tidy(mod) %>% mutate(sig = p.value >= .05, 
+                              eps = error, 
+                              r_xy = r_xy, N = N)
+    
+}
+
+plot_multi_col_demo <- function(N = 100, r_xy = .9, error = 2, iter = 100, alpha = .5, as_error = F){
+  simu_data <- map_dfr(1:iter, function(x){
+    multi_col_demo(N = N, r_xy = r_xy, error = error) %>% 
+      mutate(iter = x)
+  }) %>% 
+    mutate(sig = factor(sig, labels = c("p < .05", "n.s.")[1:length(unique(sig))]))
+  y0 <- 1
+  if(as_error){
+    simu_data <- simu_data %>% mutate(estimate = (estimate - 1)/estimate) %>% filter(abs(estimate) < 2)
+    y0 <- 0
+    
+  }
+  q <- simu_data %>% ggplot(aes(x = term, y = estimate, color = sig))
+  q <- q + geom_boxplot(aes(group = term), width = .25, outliers = F) 
+  q <- q + geom_jitter(width = .1, alpha = alpha)  
+  q <- q + geom_hline(yintercept = y0) 
+  q <- q + theme_bw() 
+  q <- q + labs(color = "")
+  q <- q + scale_color_brewer(palette = "Set1")  
+  if(as_error){
+    q <- q + scale_y_continuous(labels = scales::percent)
+  }
+  q <- q + theme(text = element_text(size = 11), axis.text = element_text(size = 11))
+  q 
+}

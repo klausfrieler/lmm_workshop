@@ -3,7 +3,8 @@ simulate_counter_example <- function(n_rater = 100, n_samples = 10, sigma_beta =
   #n_samples <- min(max(n_samples, 10), length(x))
   ret <-
     map_dfr(1:n_rater, function(p_id) {
-      offset <- (p_id %% 10) - 5
+      #offset <- (p_id %% 10) - 5
+      offset <- floor(p_id/10)
       #browser()
       #x_tmp <- sample(x, n_samples)
       x_tmp <- rnorm(n_samples, .5, .3)
@@ -11,7 +12,7 @@ simulate_counter_example <- function(n_rater = 100, n_samples = 10, sigma_beta =
       y <- x_tmp * beta  - offset + rnorm(length(x_tmp), 0, rater_eps)
       offset_tmp <- rnorm(1, offset / 10, .2)
       x <- x_tmp + offset_tmp
-      tibble(p_id = factor(p_id), x = x, y = y)
+      tibble(p_id = factor(p_id), x = x, y = y, x_tmp_1 = x_tmp - offset_tmp, offset_tmp = offset_tmp, beta = beta, offset = offset)
     })
   ret
 }
