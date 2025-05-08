@@ -122,8 +122,9 @@ multi_col_demo <- function(N = 100, seed = NULL, error = 2, r_xy = .5){
   y <- x + rnorm(N, 0, sigma_y)
   u <- rnorm(N, 0, 1)
   z <- 1  + x + y + u + rnorm(N, 0, error)
-  data <- tibble(z = z, x = x, y = y) 
+  data <- tibble(z = z, x = x, y = y, u = u) 
   mod <- data %>% lm(z ~ x + y + u, data = .)
+  #return(data)
   #summary(mod)
   #mod %>% car::vif()
   #cor(x, y)
@@ -133,7 +134,7 @@ multi_col_demo <- function(N = 100, seed = NULL, error = 2, r_xy = .5){
     
 }
 
-plot_multi_col_demo <- function(N = 100, r_xy = .9, error = 2, iter = 100, alpha = .5, as_error = F){
+plot_multi_col_demo <- function(N = 100, r_xy = .9, error = 2, iter = 100, alpha = .5 - log10(iter)/10, as_error = F){
   simu_data <- map_dfr(1:iter, function(x){
     multi_col_demo(N = N, r_xy = r_xy, error = error) %>% 
       mutate(iter = x)
@@ -145,6 +146,11 @@ plot_multi_col_demo <- function(N = 100, r_xy = .9, error = 2, iter = 100, alpha
     y0 <- 0
     
   }
+  print(simu_data %>% 
+          group_by(term) %>% 
+          summarise(mare = mean(abs(estimate)), 
+                    mase = mean(sign(estimate)),
+                    r_sig = mean(sig == "p < .05")))
   q <- simu_data %>% ggplot(aes(x = term, y = estimate, color = sig))
   q <- q + geom_boxplot(aes(group = term), width = .25, outliers = F) 
   q <- q + geom_jitter(width = .1, alpha = alpha)  
