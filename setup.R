@@ -13,6 +13,7 @@ source("model_comp.R")
 source("simulate_lmm.R")
 
 mer_emo_vars <- c("angry", "sad", "happy", "peacef", "tender", "fearf")
+
 setup_workspace <- function(){
   covox <- readRDS("data/covox.rds")
   mer <- readRDS("data/MER.rds")
